@@ -1,0 +1,26 @@
+.registration-container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #faf5fa;
+}
+
+h1 {
+    color: #563d7c;
+}
+
+button {
+    background-color: #563d7c;
+    color: white;
+}
+
+.error-msg {
+    color: red;
+}
+
+.disabled {
+    border: 1px solid #563d7c;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: no-drop;
+}

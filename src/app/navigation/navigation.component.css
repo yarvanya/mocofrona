@@ -1,0 +1,9 @@
+nav {
+    background-color: #563d7c;
+    height: 70px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+    font-weight: bold;
+}
