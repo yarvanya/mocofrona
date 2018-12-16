@@ -9,9 +9,7 @@ export class HomeComponent implements OnInit {
 
   title = 'mocofrona';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

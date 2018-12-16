@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserInterface } from './user-interface';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { UserInterface } from '../../interfaces/user-interface';
+import { constants } from '../../helper/constants';
 import { Observable } from 'rxjs/index';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -12,6 +14,8 @@ import { Observable } from 'rxjs/index';
 
 export class RegistrationComponent implements OnInit {
   passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
+  newUser: object;
+  successfullyRegistered = false;
 
   registrationForm = new FormGroup({
     email: new FormControl('', [
@@ -27,15 +31,7 @@ export class RegistrationComponent implements OnInit {
     confirmPassword: new FormControl('', [
       Validators.required
     ])
-  });
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'mode': 'cors',
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type':  'application/json'
-    })
-  };
+  }, this.validateConfirmPassword);
 
   errorHandlers = {
     required: () => 'This field is required.',
@@ -45,27 +41,48 @@ export class RegistrationComponent implements OnInit {
     pattern: () => 'Password should contain at least 1 big letter, 1 small letter, 1 spec symbol and 1 digit.'
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {}
 
+  validateConfirmPassword(form: FormGroup) {
+    return form.get('password').value === form.get('confirmPassword').value ? null : {mismatch: true};
+  }
+
   getErrorMessage(control) {
-    console.log(control.errors);
     const errorName = Object.keys(control.errors)[0];
 
     return this.errorHandlers[errorName](control.errors[errorName]);
   }
 
   doRegistartion(): Observable<UserInterface> {
-    return this.http.post<UserInterface>(`//localhost:8080/api/users`, {
-        email: this.registrationForm.controls['email'].value,
-        password: this.registrationForm.controls['password'].value
-      }, this.httpOptions);
+    return this.http.post<UserInterface>(`${constants.backEndUrl}${constants.routes.registration}`, {
+      email: this.registrationForm.controls['email'].value,
+      password: this.registrationForm.controls['password'].value
+    });
   }
 
   register() {
     this.doRegistartion().subscribe(response => {
-      console.log('Will send mail after registration!');
+      this.newUser = response.user;
+      this.successfullyRegistered = true;
+
+      this.registrationForm.setValue({
+        email: '',
+        password: '',
+        confirmPassword: ''
+      });
+      this.registrationForm.markAsUntouched();
+      this.showToastr(response);
+    }, catchedError => {
+      this.showToastr(catchedError.error);
     });
+  }
+
+  showToastr(data) {
+    this.toastr[`${data.status}`](`${data.message}`);
   }
 }

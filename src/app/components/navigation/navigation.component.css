@@ -7,3 +7,7 @@ nav {
     color: white;
     font-weight: bold;
 }
+
+.logo {
+    border: 2px solid white;
+}

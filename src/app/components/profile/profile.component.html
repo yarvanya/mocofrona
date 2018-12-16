@@ -1,0 +1,124 @@
+<div class="profile-container">
+  <h1>Personal Data</h1>
+  <div class="profile-data" *ngIf="profileData">
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>Name</strong>
+      </div>
+      <div class="col-sm-6">
+        {{profileData.firstName}} {{profileData.lastName}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>Country</strong>
+      </div>
+      <div class="col-sm-6">
+        {{profileData.country}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>City</strong>
+      </div>
+      <div class="col-sm-6">
+        {{profileData.city}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>Address</strong>
+      </div>
+      <div class="col-sm-6">
+        {{profileData.address}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <strong>Birth Date</strong>
+      </div>
+      <div class="col-sm-6">
+        {{profileData.birthDate}}
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="btn mocofrona-btn"
+    (click)="openProfileModal(template)">
+    Update profile
+  </button>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Profile</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="profileForm">
+      <div class="row">
+        <label class="col-sm-4" for="userFirstName">First name</label>
+        <input
+          type="text"
+          formControlName="firstName"
+          class="form-control col-sm-6"
+          id="userFirstName"
+          placeholder="Enter first name">
+      </div>
+      <div class="row">
+        <label class="col-sm-4" for="userLastName">Last name</label>
+        <input
+          type="text"
+          formControlName="lastName"
+          class="form-control col-sm-6"
+          id="userLastName"
+          placeholder="Enter last name">
+      </div>
+      <div class="row">
+        <label class="col-sm-4" for="userCountry">Country</label>
+        <input
+          type="text"
+          formControlName="country"
+          class="form-control col-sm-6"
+          id="userCountry"
+          placeholder="Enter your country">
+      </div>
+      <div class="row">
+        <label class="col-sm-4" for="userCity">City</label>
+        <input
+          type="text"
+          formControlName="city"
+          class="form-control col-sm-6"
+          id="userCity"
+          placeholder="Enter your city">
+      </div>
+      <div class="row">
+        <label class="col-sm-4" for="userAddress">Address</label>
+        <input
+          type="text"
+          formControlName="address"
+          class="form-control col-sm-6"
+          id="userAddress"
+          placeholder="Enter your address">
+      </div>
+      <div class="row">
+        <label class="col-sm-4" for="userBirthday">Birthday</label>
+        <input
+          type="text"
+          formControlName="birthDate"
+          class="form-control col-sm-6"
+          id="userBirthday"
+          placeholder="Select your birthday">
+      </div>
+
+      <button
+        class="btn mocofrona-btn float-right"
+        (click)="updateProfile()">
+        Update
+      </button>
+    </form>
+  </div>
+</ng-template>

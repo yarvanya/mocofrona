@@ -1,0 +1,78 @@
+<div>
+
+  <div *ngIf="successfullyRegistered" class="register-notification jumbotron">
+    <h1 class="display-4">Dear, <strong>{{newUser && newUser.email || 'friend'}}</strong>!</h1>
+    <p class="lead">You are successfully registered in our system.</p>
+    <hr class="my-4">
+    <p>Please, visit your email to activate your account.</p>
+  </div>
+
+  <div class="registration-container">
+    <h1>Fill the registration form in:</h1>
+    <form [formGroup]="registrationForm">
+      <div class="form-group">
+        <label for="userEmail">Email address</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control"
+          id="userEmail"
+          aria-describedby="emailHelp"
+          placeholder="Enter email">
+        <small
+          *ngIf="registrationForm.controls['email'].touched && registrationForm.controls['email'].invalid"
+          id="emailHelp"
+          class="error-msg form-text">
+          {{getErrorMessage(registrationForm.controls['email'])}}
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="userPassword">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          id="userPassword"
+          aria-describedby="passwordHelp"
+          placeholder="Password">
+        <small
+          *ngIf="registrationForm.controls['password'].touched && registrationForm.controls['password'].invalid"
+          id="passwordHelp"
+          class="error-msg form-text">
+          {{getErrorMessage(registrationForm.controls['password'])}}
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="confirmUserPassword">Confirm Password</label>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          class="form-control"
+          id="confirmUserPassword"
+          aria-describedby="passwordConfirmHelp"
+          placeholder="Confirm Password">
+        <small
+          *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.controls['confirmPassword'].invalid && !registrationForm.errors?.mismatch"
+          id="passwordConfirmHelp"
+          class="error-msg form-text">
+          {{getErrorMessage(registrationForm.controls['confirmPassword'])}}
+        </small>
+        <small
+          *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.errors?.mismatch"
+          id="passwordConfirmHelp"
+          class="error-msg form-text">
+          Confirm password does not match password.
+        </small>
+      </div>
+      <button
+        type="submit"
+        [ngClass]="{'disabled': registrationForm.invalid}"
+        class="btn"
+        [disabled]="registrationForm.invalid"
+        (click)="register()">
+        Register
+      </button>
+    </form>
+  </div>
+
+</div>

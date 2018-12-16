@@ -1,4 +1,4 @@
-.registration-container {
+.login-container {
     width: 50%;
     margin: 0 auto;
     padding: 25px;
@@ -23,4 +23,9 @@ button {
     background-color: #cccccc;
     color: #666666;
     cursor: no-drop;
+}
+
+.login-notification {
+    padding: 10px 20px;
+    text-align: center;
 }

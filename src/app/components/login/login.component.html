@@ -1,0 +1,53 @@
+<div>
+  <div *ngIf="!isLogged" class="login-container">
+    <h1>Fill the login form in:</h1>
+    <form [formGroup]="loginForm">
+      <div class="form-group">
+        <label for="userEmail">Email address</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control"
+          id="userEmail"
+          aria-describedby="emailHelp"
+          placeholder="Enter email">
+        <small
+          *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid"
+          id="emailHelp"
+          class="error-msg form-text">
+          {{getErrorMessage(loginForm.controls['email'])}}
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="userPassword">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="form-control"
+          id="userPassword"
+          aria-describedby="passwordHelp"
+          placeholder="Password">
+        <small
+          *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid"
+          id="passwordHelp"
+          class="error-msg form-text">
+          {{getErrorMessage(loginForm.controls['password'])}}
+        </small>
+      </div>
+      <button
+        type="submit"
+        [ngClass]="{'disabled': loginForm.invalid}"
+        class="btn"
+        [disabled]="loginForm.invalid"
+        (click)="submit()">
+        Login
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="isLogged" class="login-notification jumbotron">
+    <h1 class="display-4">Dear, user!</h1>
+    <p class="lead">You are already logged in our system.</p>
+    <hr class="my-4">
+  </div>
+</div>

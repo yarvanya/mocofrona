@@ -1,0 +1,30 @@
+.profile-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #faf5fa;
+}
+
+.profile-data {
+    margin: 25px;
+}
+
+.mocofrona-btn {
+    background-color: #563d7c;
+    color: white;
+}
+
+.modal-header {
+    border-radius: 0;
+    background-color: #faf5fa;
+    color: #563d7c;
+    padding: 10px;
+}
+
+.modal-body {
+    padding-left: 60px;
+}
+
+.row {
+    padding-bottom: 5px;
+}
