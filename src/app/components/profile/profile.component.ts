@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { UserInterface } from '../../interfaces/user-interface';
+import { ProfileInterface } from '../../interfaces/profile-interface';
 import { constants } from '../../helper/constants';
 import { Observable } from 'rxjs/index';
 import { ToastrService } from 'ngx-toastr';
@@ -14,10 +14,12 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent implements OnInit {
   modalRef: BsModalRef;
   authData: any;
   profileData: any;
+  defaultFieldValue: string = 'Fill this field in';
 
   profileForm = new FormGroup({
     firstName: new FormControl(''),
@@ -36,11 +38,15 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.initComponent();
+  }
+
+  initComponent() {
     this.auth.isUserLogged.subscribe(subscribed_data => {
       this.authData = subscribed_data.authData;
     });
 
-    this.getUserData().subscribe(profile_data => {
+    this.getProfilerData().subscribe(profile_data => {
       this.profileData = profile_data;
       this.profileForm.setValue({
         firstName: this.profileData.firstName,
@@ -50,6 +56,8 @@ export class ProfileComponent implements OnInit {
         address: this.profileData.address,
         birthDate: this.profileData.birthDate
       });
+    }, catchedError => {
+      this.showToastr(catchedError.error);
     });
   }
 
@@ -58,16 +66,36 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    console.log(this.profileForm.value);
+    this.updateProfileData().subscribe(profile_data => {
+      this.profileData = profile_data.profile;
+      this.showToastr(profile_data);
+      this.modalRef.hide();
+    }, catchedError => {
+      this.showToastr(catchedError.error);
+      this.modalRef.hide();
+    });
   }
 
-  getUserData(): Observable<UserInterface> {
-    return this.http.get<UserInterface>(
+  getProfilerData(): Observable<ProfileInterface> {
+    return this.http.get<ProfileInterface>(
       `${constants.backEndUrl}${constants.routes.get_profile}/${this.authData.profileId}`
     );
   }
 
+  updateProfileData(): Observable<ProfileInterface> {
+    return this.http.put<ProfileInterface>(
+      `${constants.backEndUrl}${constants.routes.get_profile}/${this.authData.profileId}`,
+      this.profileForm.value
+    );
+  }
+
   showToastr(data) {
-    this.toastr[`${data.status}`](`${data.message}`);
+    if (data && data.status && data.message) {
+      this.toastr[`${data.status}`](`${data.message}`);
+    } else {
+      this.toastr.error(
+        'Our system is facing with some problems. We kindly ask you to try again later.'
+      );
+    }
   }
 }

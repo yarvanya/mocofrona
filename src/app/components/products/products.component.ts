@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
+
 export class ProductsComponent implements OnInit {
   isLogged: boolean;
 

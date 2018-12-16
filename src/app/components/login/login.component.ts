@@ -54,6 +54,12 @@ export class LoginComponent implements OnInit {
   }
 
   showToastr(data) {
-    this.toastr[`${data.status}`](`${data.message}`);
+    if (data && data.status && data.message) {
+      this.toastr[`${data.status}`](`${data.message}`);
+    } else {
+      this.toastr.error(
+        'Our system is facing with some problems. We kindly ask you to try again later.'
+      );
+    }
   }
 }

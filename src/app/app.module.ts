@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AvatarModule } from 'ngx-avatar';
 import { ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -38,6 +39,7 @@ export function tokenGetter() {
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    AvatarModule,
     ModalModule.forRoot()
   ],
   providers: [

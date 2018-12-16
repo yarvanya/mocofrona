@@ -1,45 +1,50 @@
-<div class="profile-container">
+<div class="profile-container" *ngIf="profileData">
   <h1>Personal Data</h1>
-  <div class="profile-data" *ngIf="profileData">
-    <div class="row">
-      <div class="col-sm-6">
-        <strong>Name</strong>
+  <div class="row">
+    <div class="profile-data col-sm-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>Name</strong>
+        </div>
+        <div class="col-sm-6">
+          {{profileData.firstName}} {{profileData.lastName || defaultFieldValue}}
+        </div>
       </div>
-      <div class="col-sm-6">
-        {{profileData.firstName}} {{profileData.lastName}}
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>Country</strong>
+        </div>
+        <div class="col-sm-6">
+          {{profileData.country || defaultFieldValue}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>City</strong>
+        </div>
+        <div class="col-sm-6">
+          {{profileData.city || defaultFieldValue}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>Address</strong>
+        </div>
+        <div class="col-sm-6">
+          {{profileData.address || defaultFieldValue}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>Birth Date</strong>
+        </div>
+        <div class="col-sm-6">
+          {{profileData.birthDate || defaultFieldValue}}
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <strong>Country</strong>
-      </div>
-      <div class="col-sm-6">
-        {{profileData.country}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <strong>City</strong>
-      </div>
-      <div class="col-sm-6">
-        {{profileData.city}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <strong>Address</strong>
-      </div>
-      <div class="col-sm-6">
-        {{profileData.address}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <strong>Birth Date</strong>
-      </div>
-      <div class="col-sm-6">
-        {{profileData.birthDate}}
-      </div>
+    <div class="avatar-data col-sm-6">
+      <ngx-avatar name="{{profileData.firstName}} {{profileData.lastName}}" size="200"></ngx-avatar>
     </div>
   </div>
 
@@ -115,7 +120,13 @@
       </div>
 
       <button
+        class="btn btn-danger float-left"
+        (click)="modalRef.hide()">
+        Cancel
+      </button>
+      <button
         class="btn mocofrona-btn float-right"
+        [disabled]="!profileForm.touched || !profileForm.dirty || profileForm.pristine || profileForm.invalid"
         (click)="updateProfile()">
         Update
       </button>
