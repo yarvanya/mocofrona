@@ -44,7 +44,14 @@
       </div>
     </div>
     <div class="avatar-data col-sm-6">
-      <ngx-avatar name="{{profileData.firstName}} {{profileData.lastName}}" size="200"></ngx-avatar>
+      <img [src]="profileForm.controls['avatar'].value" style="width:250px;height:250px;" alt="avatar">
+      <input 
+        style="display: none"
+        type="file"
+        accept="image/*"
+        (change)="fileChange($event.target.files)" 
+        #fileInput>
+      <button class="btn mocofrona-btn" (click)="fileInput.click()">Select File</button>
     </div>
   </div>
 
